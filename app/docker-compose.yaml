@@ -11,11 +11,11 @@ services:
 
   api:
     build:
-      context: ..
+      context: .
       dockerfile: Dockerfile
     restart: always
     env_file:
-      - ./../app/.env
+      - .env
     depends_on:
       db:
         condition: service_healthy
@@ -26,13 +26,13 @@ services:
 
   migrations:
     build:
-      context: ..
+      context: .
       dockerfile: Dockerfile
     depends_on:
       db:
         condition: service_healthy
     env_file:
-      - ./../app/.env
+      - .env
     command: >
       sh -c "python ./manage.py migrate"
       
@@ -40,8 +40,10 @@ services:
   db:
     image: postgres:latest
     restart: always
-    env_file:
-      - ./../app/.env
+    environment:
+      POSTGRES_NAME: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5433:5432"
     volumes:
