@@ -5,7 +5,8 @@ services:
     image: sermalenk/skypro-front:lesson-34
     restart: always
     depends_on:
-      - api
+      api:
+        condition: service_started
     ports:
       - "80:80"
 
@@ -14,8 +15,9 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: always
-    env_file:
-      - .env
+    env_file: .env
+    environment:
+      DB_HOST: db
     depends_on:
       db:
         condition: service_healthy
@@ -31,10 +33,10 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    env_file:
-      - .env
-    command: >
-      sh -c "python ./manage.py migrate"
+    env_file: .env
+    environment:
+      DB_HOST: db
+    command: python manage.py migrate
       
 
   db:
