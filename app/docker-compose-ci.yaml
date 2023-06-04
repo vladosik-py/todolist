@@ -18,11 +18,8 @@ services:
       interval: 5s
       retries:
         5
-
   migrations:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: vladosik11/todolist_diploma_work:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     depends_on:
       db:
         condition: service_healthy
@@ -32,9 +29,7 @@ services:
     command: python manage.py migrate
 
   api:
-      build:
-        context: .
-        dockerfile: Dockerfile
+      image: vladosik11/todolist_diploma_work:$GITHUB_REF_NAME-$GITHUB_RUN_ID
       restart: always
       env_file: .env
       environment:

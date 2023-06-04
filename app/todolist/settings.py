@@ -6,7 +6,7 @@ env = Env()
 BASE_DIR = Path(__file__).resolve().parent.parent
 env.read_env('app/.env')
 
-SECRET_KEY = env("DJANGO_SECRET_KEY")
+SECRET_KEY = env("SECRET_KEY")
 
 DEBUG = env('DEBUG', default=False)
 
