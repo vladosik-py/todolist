@@ -19,7 +19,7 @@ services:
       retries:
         5
   migrations:
-    image: vladosik11/todolist_diploma_work:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    image: vladosik11/todolist_diploma_work:version-1
     depends_on:
       db:
         condition: service_healthy
@@ -29,7 +29,7 @@ services:
     command: python manage.py migrate
 
   api:
-      image: vladosik11/todolist_diploma_work:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+      image: vladosik11/todolist_diploma_work:version-1
       restart: always
       env_file: .env
       environment:
