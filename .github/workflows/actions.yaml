@@ -1,8 +1,5 @@
 name: Build and deploy action
-on:
-  push:
-    branches:
-      - tdl
+on: [push]
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
