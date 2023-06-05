@@ -7,11 +7,11 @@ jobs:
       - name: clone code
         uses: actions/checkout@v3
       - name: docker build
-        run: docker build -t vladosik11/todolist_diploma_work:$GIT_HUB_REF_NAME-$RUN_ID .
+        run: docker build -t vladosik11/todolist_diploma_work:version-1 .
       - name: docker login
         run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: docker push
-        run: docker push vladosik11/todolist_diploma_work:$GIT_HUB_REF_NAME-$RUN_ID
+        run: docker push vladosik11/todolist_diploma_work:version-1
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_push
