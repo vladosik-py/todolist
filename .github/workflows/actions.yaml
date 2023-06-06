@@ -6,7 +6,6 @@ jobs:
     steps:
       - name: clone code
         uses: actions/checkout@v3
-      - run: cd app
       - name: docker build
         run: docker build -t vladosik11/todolist_diploma_work:version-1 .
       - name: docker login

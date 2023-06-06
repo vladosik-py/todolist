@@ -8,7 +8,7 @@ ENV PYTHONNUNBUFFERED 1
 RUN apt-get update && apt-get install -y --no-install-recommends gcc
 
 
-COPY requirements.txt .
+COPY app/requirements.txt .
 
 RUN pip install -r requirements.txt
 
