@@ -21,8 +21,8 @@ services:
 
   migrations:
     build:
-      context: .
-      dockerfile: ./Dockerfile
+      context: ..
+      dockerfile: ../Dockerfile
     depends_on:
       db:
         condition: service_healthy
@@ -33,8 +33,8 @@ services:
 
   api:
       build:
-        context: .
-        dockerfile: ./Dockerfile
+        context: ..
+        dockerfile: ../Dockerfile
       restart: always
       env_file: .env
       environment:
