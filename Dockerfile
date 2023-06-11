@@ -14,7 +14,7 @@ COPY app/requirements.txt .
 RUN pip install -r requirements.txt
 
 
-COPY . /usr/src/app
+COPY . /app
 
 EXPOSE 8000
 
