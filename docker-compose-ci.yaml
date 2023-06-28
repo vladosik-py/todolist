@@ -8,39 +8,31 @@ services:
       POSTGRES_NAME: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - "5433:5432"
     volumes:
       - todolist_data:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}" ]
       timeout: 5s
       interval: 5s
-      retries:
-        5
+      retries: 10
+
   migrations:
     image: vladosik11/todolist_diploma_work:version-1
     depends_on:
       db:
         condition: service_healthy
-    env_file: app/.env
-    environment:
-      DB_HOST: db
+    env_file: .env
     command: python manage.py migrate
 
   api:
       image: vladosik11/todolist_diploma_work:version-1
       restart: always
-      env_file: app/.env
-      environment:
-        DB_HOST: db
+      env_file: .env
       depends_on:
         db:
           condition: service_healthy
         migrations:
           condition: service_completed_successfully
-      ports:
-        - "8000:8000"
 
   frontend:
     image: sermalenk/skypro-front:lesson-34
