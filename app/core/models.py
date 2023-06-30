@@ -2,4 +2,10 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    pass
+    REQUIRED_FIELDS = [
+        "first_name",
+        "last_name",
+        "email",
+        "password",
+        "password_repeat"
+    ]

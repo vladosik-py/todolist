@@ -1,6 +1,4 @@
 from django.contrib.auth import get_user_model, login, logout
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import generics, status, permissions
 from rest_framework.response import Response
 
@@ -26,7 +24,6 @@ class LoginView(generics.CreateAPIView):
         return Response(serializer.data)
 
 
-@method_decorator(ensure_csrf_cookie, name='dispatch')
 class ProfileView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
     queryset = USER_MODEL.objects.all()
@@ -40,7 +37,6 @@ class ProfileView(generics.RetrieveUpdateDestroyAPIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-@method_decorator(ensure_csrf_cookie, name='dispatch')
 class UpdatePasswordView(generics.UpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = UpdatePasswordSerializer
