@@ -24,7 +24,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    env_file: app/.env
+    env_file: .env
     environment:
       DB_HOST: db
     command: python manage.py migrate
@@ -33,7 +33,7 @@ services:
       build:
         context: app
       restart: always
-      env_file: app/.env
+      env_file: .env
       environment:
         DB_HOST: db
       depends_on:
