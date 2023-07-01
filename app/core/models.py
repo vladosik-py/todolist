@@ -7,5 +7,4 @@ class User(AbstractUser):
         "last_name",
         "email",
         "password",
-        "password_repeat"
     ]
