@@ -5,11 +5,11 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONNUNBUFFERED=1
 
-COPY requirements.txt .
+COPY app/requirements.txt .
 
 RUN pip install -r requirements.txt
 
-COPY . .
+COPY app .
 
 EXPOSE 8000
 
