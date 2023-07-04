@@ -25,7 +25,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "core",
     "todolist",
-    #"social_django",
+    "social_django",
 ]
 
 MIDDLEWARE = [
@@ -42,17 +42,17 @@ ROOT_URLCONF = "todolist.urls"
 
 AUTH_USER_MODEL = 'core.User'
 
-# SOCIAL_AUTH_JSONFIELD_ENABLED = True
-# SOCIAL_AUTH_VK_SCOPE = ['email']
-# SOCIAL_AUTH_VK_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_VK_OAUTH2_KEY')
-# SOCIAL_AUTH_VK_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_VK_OAUTH2_SECRET')
-# SOCIAL_AUTH_URL_NAMESPACE = 'social'
-# SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/categories'
-# SOCIAL_AUTH_VK_EXTRA_DATA = [
-#     ('email', 'email'),
-# ]
-# SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error'
-# SOCIAL_AUTH_USER_MODEL = 'core.User'
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
+SOCIAL_AUTH_VK_SCOPE = ['email']
+SOCIAL_AUTH_VK_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_VK_OAUTH2_KEY')
+SOCIAL_AUTH_VK_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_VK_OAUTH2_SECRET')
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/categories'
+SOCIAL_AUTH_VK_EXTRA_DATA = [
+     ('email', 'email'),
+ ]
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error'
+SOCIAL_AUTH_USER_MODEL = 'core.User'
 
 TEMPLATES = [
     {
@@ -99,8 +99,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 LANGUAGE_CODE = "en-us"
 
@@ -110,13 +108,9 @@ USE_I18N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
