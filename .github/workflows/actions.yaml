@@ -29,14 +29,13 @@ jobs:
         run: |
           mkdir deploy
           cat docker-compose-ci.yaml | envsubst > deploy/docker-compose.yaml
-          cat .env.example | envsubst > deploy/.env
       - name: clone files to server
         uses: appleboy/scp-action@master
         with:
             host: ${{ secrets.HOST }}
             username: ${{ secrets.SSH_USERNAME }}
             password: ${{ secrets.SSH_PASSWORD }}
-            source: "deploy/docker-compose.yaml, app/.env"
+            source: "deploy/docker-compose.yaml"
             target: "deploy"
             strip_components: 1
       - name: run docker-compose
