@@ -35,9 +35,9 @@ jobs:
             host: ${{ secrets.HOST }}
             username: ${{ secrets.SSH_USERNAME }}
             password: ${{ secrets.SSH_PASSWORD }}
-            source: "deploy/docker-compose.yaml"
-            target: "deploy"
-            strip_components: 1
+        source: "deploy/docker-compose.yaml"
+        target: "deploy"
+        strip_components: 1
       - name: run docker-compose
         uses: appleboy/ssh-action@master
         with:
