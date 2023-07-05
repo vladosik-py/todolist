@@ -1,4 +1,4 @@
 venv/
-app/todolist/.env
+.env
 __pycache__
 .idea/
