@@ -6,7 +6,7 @@ from pathlib import Path
 env = Env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-env.read_env(BASE_DIR.joinpath('.env'))
+env.read_env(BASE_DIR.parent.joinpath('.env'))
 
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 
