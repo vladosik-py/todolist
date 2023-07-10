@@ -1,3 +1,4 @@
+
 name: Build and deploy action
 on: [push]
 jobs:
@@ -35,7 +36,7 @@ jobs:
             host: ${{ secrets.HOST }}
             username: ${{ secrets.SSH_USERNAME }}
             password: ${{ secrets.SSH_PASSWORD }}
-            source: "deploy/docker-compose.yaml"
+            source: "deploy/docker-compose.yaml, app/.env.example"
             target: "deploy"
             strip_components: 1
       - name: run docker-compose
