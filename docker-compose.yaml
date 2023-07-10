@@ -32,7 +32,7 @@ services:
   api:
       build:
         context: .
-        dockerfile: Dockerfile
+        dockerfile: app/todolist/Dockerfile
       restart: always
       env_file: app/todolist/.env
       environment:
