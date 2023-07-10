@@ -24,7 +24,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    env_file: app/todolist/.env
+    env_file: .env
     environment:
       DB_HOST: db
     command: python manage.py migrate
@@ -32,9 +32,9 @@ services:
   api:
       build:
         context: .
-        dockerfile: app/todolist/Dockerfile
+        dockerfile: Dockerfile
       restart: always
-      env_file: app/todolist/.env
+      env_file: .env
       environment:
         DB_HOST: db
       depends_on:
