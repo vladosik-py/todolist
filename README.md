@@ -1,12 +1,7 @@
-# Название проекта: todolist
-# Описание проекта: веб-приложение типа "Календарь", планировщик задач
-# Стек: python3.9, Django, Postgres
+# TodoList Project
 
-# Для того, чтобы запустить приложение необходимо выполнить следующие команды:
-# - склонировать репозиторий (git clone)
-# - создать виртуальное окружение (python -m venv todolist)
-# - установить зависимости (pip install requirements.txt)
-# - создать и заполнить файл .env (указать настройки подключения к БД)
-# - запустить миграции (python manage.py migrate)
-# - запустить проект (python manage.py runserver)
-# - если все шаги выполнены верно, отобразится админка сайта
+## Quick start
+```bash
+cp app/.env.example app/.env
+docker-compose --env-file app/.env up
+```
