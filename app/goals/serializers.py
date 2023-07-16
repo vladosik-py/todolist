@@ -6,6 +6,8 @@ from core.models import User
 from core.serializers import UserSerializer
 from goals.models import GoalCategory, Goal, BoardParticipant, GoalComment, Board
 
+# categories serializers
+
 
 class GoalCreateSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
@@ -57,6 +59,8 @@ class GoalCategorySerializer(serializers.ModelSerializer):
 class GoalCategoryWithUserSerializer(GoalCategorySerializer):
     user = UserSerializer(read_only=True)
 
+# goals serializers
+
 
 class GoalSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
@@ -78,6 +82,29 @@ class GoalWithUserSerializer(GoalSerializer):
     user = UserSerializer(read_only=True)
 
 
+# comments serializer
+
+class GoalCommentSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = GoalComment
+        fields = '__all__'
+        read_only_fields = ("id", "created", "updated", "user", "goal")
+
+    def validate_goal(self, value: Goal) -> Goal:
+        if value.status == Goal.Status.archived:
+            raise ValidationError("Goal not found")
+        if self.context['request'].user != value.user_id:
+            raise PermissionDenied
+        return value
+
+
+class GoalCommentWithUserSerializer(GoalCommentSerializer):
+    user = UserSerializer(read_only=True)
+    goal = serializers.PrimaryKeyRelatedField(read_only=True)
+
+
 class CommentCreateSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
@@ -94,15 +121,6 @@ class CommentCreateSerializer(serializers.ModelSerializer):
         ).exists():
             raise serializers.ValidationError("Вы не являетесь автором этого комментария")
         return value
-
-
-class CommentSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
-
-    class Meta:
-        model = GoalComment
-        fields = '__all__'
-        read_only_fields = ("id", "created", "updated", "user", "goal")
 
 
 class BoardCreateSerializer(serializers.ModelSerializer):

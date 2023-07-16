@@ -4,8 +4,10 @@ from goals.models import GoalCategory
 
 
 class GoalCategoryAdmin(admin.ModelAdmin):
-    list_display = ("title", "user", "created", "updated")
-    search_fields = ("title", "user")
+    list_display = ("id", "title")
+    readonly_fields = ("created", "updated")
+    list_filter = ["is_deleted"]
+    search_fields = ["title"]
 
 
 class GoalAdmin(admin.ModelAdmin):
