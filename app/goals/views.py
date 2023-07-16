@@ -79,7 +79,7 @@ class GoalListView(generics.ListAPIView):
 
 class GoalDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = GoalWithUserSerializer
-    permission_classes = GoalPermission
+    permission_classes = [GoalPermission]
     queryset = Goal.objects.select_related('user').filter(category__is_deleted=False
                                                           ).exclude(status=Goal.Status.archived)
 
