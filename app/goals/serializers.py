@@ -1,10 +1,8 @@
-from django.db import transaction
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError, PermissionDenied
 
-from core.models import User
 from core.serializers import UserSerializer
-from goals.models import GoalCategory, Goal, BoardParticipant, GoalComment, Board
+from goals.models import GoalCategory, Goal, GoalComment
 
 # categories serializers
 
@@ -57,7 +55,7 @@ class GoalCommentSerializer(serializers.ModelSerializer):
     def validate_goal(self, value: Goal) -> Goal:
         if value.status == Goal.Status.archived:
             raise ValidationError("Goal not found")
-        if self.context['request'].user != value.user_id:
+        if self.context['request'].user.id != value.user_id:
             raise PermissionDenied
         return value
 
