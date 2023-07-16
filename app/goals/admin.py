@@ -3,6 +3,7 @@ from django.contrib import admin
 from goals.models import GoalCategory, GoalComment, Goal
 
 
+@admin.register(GoalCategory)
 class GoalCategoryAdmin(admin.ModelAdmin):
     list_display = ("id", "title")
     readonly_fields = ("created", "updated")
@@ -15,13 +16,10 @@ class CommentsInLine(admin.StackedInline):
     extra = 0
 
 
+@admin.register(Goal)
 class GoalAdmin(admin.ModelAdmin):
     list_display = ("id", "description")
     search_fields = ("title", "description")
     readonly_fields = ("created", "updated")
     list_filter = ("status", "priority")
     inlines = [CommentsInLine]
-
-
-admin.site.register(GoalCategory)
-admin.site.register(Goal)
