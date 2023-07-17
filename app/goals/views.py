@@ -6,8 +6,9 @@ from rest_framework.pagination import LimitOffsetPagination
 from goals.filters import GoalDateFilter
 from goals.models import GoalCategory, Goal, GoalComment
 from goals.permissions import GoalCategoryPermission, GoalPermission, GoalCommentPermission
-from goals.serializers import GoalSerializer, GoalCategoryWithUserSerializer, GoalWithUserSerializer, GoalCommentSerializer, \
-    GoalCommentWithUserSerializer
+from goals.serializers import GoalSerializer, GoalCategoryWithUserSerializer, GoalWithUserSerializer, \
+    GoalCommentSerializer, \
+    GoalCommentWithUserSerializer, GoalCategorySerializer
 
 
 # categories views
@@ -15,7 +16,7 @@ from goals.serializers import GoalSerializer, GoalCategoryWithUserSerializer, Go
 
 class GoalCategoryCreateView(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = GoalSerializer
+    serializer_class = GoalCategorySerializer
 
 
 class GoalCategoryListView(generics.ListAPIView):
