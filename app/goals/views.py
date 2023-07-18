@@ -9,7 +9,7 @@ from goals.models import GoalCategory, Goal, GoalComment, BoardParticipant, Boar
 from goals.permissions import GoalCategoryPermission, GoalPermission, GoalCommentPermission, BoardPermission
 from goals.serializers import GoalSerializer, GoalCategoryWithUserSerializer, GoalWithUserSerializer, \
     GoalCommentSerializer, \
-    GoalCommentWithUserSerializer, GoalCreateSerializer, BoardSerializer, BoardWithParticipantsSerializer
+    GoalCommentWithUserSerializer, BoardSerializer, BoardWithParticipantsSerializer
 
 
 # boards views
