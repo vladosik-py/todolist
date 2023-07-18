@@ -60,7 +60,7 @@ class GoalCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = GoalComment
         fields = '__all__'
-        read_only_fields = ("created", "updated", "user", "goal")
+        read_only_fields = ("created", "updated", "user")
 
     def validate_goal(self, value: Goal) -> Goal:
         if value.status == Goal.Status.archived:
