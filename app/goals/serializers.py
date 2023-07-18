@@ -26,6 +26,11 @@ class BoardParticipantSerializer(serializers.ModelSerializer):
             raise ValidationError('Failed to change your role')
         return user
 
+    class Meta:
+        model = BoardParticipant
+        fields = '__all__'
+        read_only_fields = ("id", "created", "updated", "board")
+
 
 class BoardWithParticipantsSerializer(BoardSerializer):
     participants = BoardParticipantSerializer(many=True)
@@ -70,9 +75,9 @@ class GoalCategorySerializer(serializers.ModelSerializer):
             raise ValidationError('Board is deleted')
 
         if not BoardParticipant.objects.filter(
-            board_id=board.id,
-            role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],
-            user_id=self.context['request'].user
+                board_id=board.id,
+                role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],
+                user_id=self.context['request'].user
         ).exists():
             raise PermissionDenied
 
@@ -104,9 +109,9 @@ class GoalSerializer(serializers.ModelSerializer):
             raise ValidationError("Category not found")
 
         if not BoardParticipant.objects.filter(
-            board_id=value.board_id,
-            role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],
-            user_id=self.context['request'].user
+                board_id=value.board_id,
+                role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],
+                user_id=self.context['request'].user
         ).exists():
             raise PermissionDenied
 
@@ -132,9 +137,9 @@ class GoalCommentSerializer(serializers.ModelSerializer):
             raise ValidationError("Goal not found")
 
         if not BoardParticipant.objects.filter(
-            board_id=value.category.board_id,
-            role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],
-            user_id=self.context['request'].user
+                board_id=value.category.board_id,
+                role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],
+                user_id=self.context['request'].user
         ).exists():
             raise PermissionDenied
         return value
