@@ -31,7 +31,7 @@ class BoardListView(generics.ListAPIView):
     ordering = ['title']
 
     def get_queryset(self) -> QuerySet[Board]:
-        return Board.objects.filter(participants__user=self.request.user).exists(is_deleted=True)
+        return Board.objects.filter(participants__user=self.request.user).exclude(is_deleted=True)
 
 
 class BoardDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -39,7 +39,7 @@ class BoardDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BoardWithParticipantsSerializer
 
     def get_queryset(self) -> QuerySet[Board]:
-        return Board.objects.prefetch_related(participants__user=self.request.user).exists(is_deleted=True)
+        return Board.objects.prefetch_related(participants__user=self.request.user).exclude(is_deleted=True)
 
     def perform_destroy(self, instance: Board) -> None:
         with transaction.atomic():
