@@ -9,8 +9,7 @@ from goals.models import GoalCategory, Goal, GoalComment, BoardParticipant, Boar
 from goals.permissions import GoalCategoryPermission, GoalPermission, GoalCommentPermission, BoardPermission
 from goals.serializers import GoalSerializer, GoalCategoryWithUserSerializer, GoalWithUserSerializer, \
     GoalCommentSerializer, \
-    GoalCommentWithUserSerializer, GoalCreateSerializer, BoardSerializer, BoardWithParticipantsSerializer, \
-    GoalCategorySerializer
+    GoalCommentWithUserSerializer, GoalCreateSerializer, BoardSerializer, BoardWithParticipantsSerializer
 
 
 # boards views
@@ -52,7 +51,7 @@ class BoardDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 class GoalCategoryCreateView(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = GoalCategorySerializer
+    serializer_class = GoalCreateSerializer
 
 
 class GoalCategoryListView(generics.ListAPIView):
