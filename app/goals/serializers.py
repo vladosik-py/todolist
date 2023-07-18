@@ -72,4 +72,4 @@ class GoalCommentSerializer(serializers.ModelSerializer):
 
 class GoalCommentWithUserSerializer(GoalCommentSerializer):
     user = UserSerializer(read_only=True)
-    goal = serializers.PrimaryKeyRelatedField
+    goal = serializers.PrimaryKeyRelatedField(read_only=True)
