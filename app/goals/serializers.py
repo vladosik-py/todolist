@@ -58,14 +58,6 @@ class BoardWithParticipantsSerializer(BoardSerializer):
 
 # categories serializers
 
-class GoalCreateSerializer(serializers.ModelSerializer):
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
-
-    class Meta:
-        model = GoalCategory
-        read_only_fields = ("id", "created", "updated", "user")
-        fields = "__all__"
-
 
 class GoalCategorySerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault)
@@ -94,6 +86,14 @@ class GoalCategoryWithUserSerializer(GoalCategorySerializer):
 
 
 # goals serializers
+
+class GoalCreateSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = GoalCategory
+        read_only_fields = ("id", "created", "updated", "user")
+        fields = "__all__"
 
 
 class GoalSerializer(serializers.ModelSerializer):
