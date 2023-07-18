@@ -63,7 +63,7 @@ class GoalCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GoalCategory
-        read_only_fields = ("created", "updated", "user")
+        read_only_fields = ("id", "created", "updated", "user")
         fields = "__all__"
 
 
@@ -86,7 +86,7 @@ class GoalCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = GoalCategory
         fields = "__all__"
-        read_only_fields = ("created", "updated", "user")
+        read_only_fields = ("id", "created", "updated", "user")
 
 
 class GoalCategoryWithUserSerializer(GoalCategorySerializer):
@@ -102,7 +102,7 @@ class GoalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Goal
         fields = '__all__'
-        read_only_fields = ("created", "updated", "user")
+        read_only_fields = ("id", "created", "updated", "user")
 
     def validate_category(self, value: GoalCategory) -> GoalCategory:
         if value.is_deleted:
@@ -130,7 +130,7 @@ class GoalCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = GoalComment
         fields = '__all__'
-        read_only_fields = ("created", "updated", "user")
+        read_only_fields = ("id", "created", "updated", "user")
 
     def validate_goal(self, value: Goal) -> Goal:
         if value.status == Goal.Status.archived:
