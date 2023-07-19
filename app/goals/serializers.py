@@ -104,9 +104,9 @@ class GoalSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ("id", "created", "updated", "user")
 
-    def validate_category(self, value: GoalCategory) -> GoalCategory:
+    def validate_board(self, value):
         if value.is_deleted:
-            raise ValidationError("Category not found")
+            raise serializers.ValidationError("not allowed in deleted project")
 
         if not BoardParticipant.objects.filter(
                 board_id=value.board_id,
