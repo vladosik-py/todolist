@@ -69,7 +69,7 @@ class GoalCategoryListView(generics.ListAPIView):
 
     def get_queryset(self):
         return GoalCategory.objects.select_related('user').filter(
-            board__participants__user=self.request.user, is_deleted=True
+            board__participants__user=self.request.user, is_deleted=False
         )
 
 
