@@ -62,7 +62,9 @@ class GoalCategoryListView(generics.ListAPIView):
     filter_backends = [
         filters.OrderingFilter,
         filters.SearchFilter,
+        DjangoFilterBackend
     ]
+    filterset_fields = ["board"]
     ordering_fields = ["title", "created"]
     ordering = ["title"]
     search_fields = ["title"]
