@@ -34,6 +34,17 @@ services:
         migrations:
           condition: service_completed_successfully
 
+  bot:
+      image: vladosik11/todolist_diploma_work:version-1
+      restart: always
+      env_file: .env
+      depends_on:
+        db:
+          condition: service_healthy
+        migrations:
+          condition: service_completed_successfully
+      command: python manage.py runbot
+
   frontend:
     image: sermalenk/skypro-front:lesson-38
     restart: always
