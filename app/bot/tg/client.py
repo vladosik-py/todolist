@@ -7,7 +7,7 @@ from todolist import settings
 
 
 class TgClient:
-    def __int__(self, token: str | None = None) -> None:
+    def __init__(self, token: str | None = None) -> None:
         self.__token = token if token else settings.BOT_TOKEN
         self.__base_url = f'https://api.telegram.org/bot{self.__token}/'
 
