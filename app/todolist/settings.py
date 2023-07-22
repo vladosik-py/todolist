@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "todolist",
     "goals",
     "social_django",
+    "bot",
 ]
 
 MIDDLEWARE = [
@@ -50,9 +51,6 @@ SOCIAL_AUTH_VK_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_VK_OAUTH2_KEY')
 SOCIAL_AUTH_VK_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_VK_OAUTH2_SECRET')
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/categories'
-#SOCIAL_AUTH_VK_EXTRA_DATA = [
-#     ('email', 'email'),
-# ]
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error'
 SOCIAL_AUTH_USER_MODEL = 'core.User'
 
@@ -124,3 +122,5 @@ AUTHENTICATION_BACKENDS = (
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination'
 }
+
+BOT_TOKEN = env.str('BOT_TOKEN')
