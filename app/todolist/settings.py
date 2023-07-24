@@ -123,4 +123,4 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination'
 }
 
-BOT_TOKEN = env('BOT_TOKEN')
+BOT_TOKEN = env.str('BOT_TOKEN')
