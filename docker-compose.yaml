@@ -53,6 +53,7 @@ services:
       env_file: .env
       environment:
         DB_HOST: db
+        BOT_TOKEN: ${BOT_TOKEN}
       depends_on:
         db:
           condition: service_healthy
