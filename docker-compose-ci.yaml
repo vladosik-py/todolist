@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - todolist_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}" ]
+      timeout: 5s
+      interval: 5s
+      retries: 10
+
+  migrations:
+    image: vladosik11/todolist_diploma_work:version-1
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file: .env
+    command: python manage.py migrate
+
+  api:
+      image: vladosik11/todolist_diploma_work:version-1
+      restart: always
+      env_file: .env
+      depends_on:
+        db:
+          condition: service_healthy
+        migrations:
+          condition: service_completed_successfully
+
+  bot:
+      image: vladosik11/todolist_diploma_work:version-1
+      restart: always
+      env_file: .env
+      depends_on:
+        db:
+          condition: service_healthy
+        migrations:
+          condition: service_completed_successfully
+      command: python manage.py runbot
+
+  frontend:
+    image: sermalenk/skypro-front:lesson-38
+    restart: always
+    depends_on:
+      api:
+        condition: service_started
+    ports:
+      - "80:80"
+
+volumes:
+  todolist_data:

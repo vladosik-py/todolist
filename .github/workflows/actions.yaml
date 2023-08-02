@@ -1,0 +1,59 @@
+name: Build and deploy action
+on: [push]
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: clone code
+        uses: actions/checkout@v3
+      - name: docker build
+        run: docker build -t vladosik11/todolist_diploma_work:version-1 .
+      - name: docker login
+        run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      - name: docker push
+        run: docker push vladosik11/todolist_diploma_work:version-1
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build_and_push
+    env:
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      SOCIAL_AUTH_VK_OAUTH2_KEY: ${{ secrets.SOCIAL_AUTH_VK_OAUTH2_KEY }}
+      SOCIAL_AUTH_VK_OAUTH2_SECRET: ${{ secrets.SOCIAL_AUTH_VK_OAUTH2_SECRET }}
+    steps:
+      - name: clone code
+        uses: actions/checkout@v3
+      - name: render configs
+        run: |
+          mkdir deploy
+          cat docker-compose-ci.yaml | envsubst > deploy/docker-compose.yaml
+      - name: clone files to server
+        uses: appleboy/scp-action@master
+        with:
+            host: ${{ secrets.HOST }}
+            username: ${{ secrets.SSH_USERNAME }}
+            password: ${{ secrets.SSH_PASSWORD }}
+            source: "deploy/docker-compose.yaml"
+            target: "deploy"
+            strip_components: 1
+      - name: run docker-compose
+        uses: appleboy/ssh-action@master
+        with:
+            host: ${{ secrets.HOST }}
+            username: ${{ secrets.SSH_USERNAME }}
+            password: ${{ secrets.SSH_PASSWORD }}
+            script: |
+              cd deploy
+              docker-compose pull
+              docker-compose up -d
+      - name: Cleanup
+        if: always()
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST}}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            docker system prune -a -f    
