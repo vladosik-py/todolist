@@ -11,7 +11,6 @@ from tests.factories import BoardFactory, BoardParticipantFactory, CategoryFacto
 
 @pytest.mark.django_db
 class TestGoalCreateView:
-    """ Тесты для работы с целями """
     url: str = reverse("goals:create_goal")
 
     def test_goal_create_owner(self, auth_client, user, due_date) -> None:

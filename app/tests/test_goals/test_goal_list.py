@@ -34,8 +34,8 @@ class TestGoalListView:
         )
         response = auth_client.get(self.url)
 
-        assert response.status_code == status.HTTP_200_OK, "Запрос не прошел"
-        assert response.json() == sorted_expected_response, "Списки целей не совпадают"
+        assert response.status_code == status.HTTP_200_OK, "request failed"
+        assert response.json() == sorted_expected_response, "Goals lists do not match"
 
     def test_deleted_goal_list_participant(self, auth_client, user) -> None:
         """
@@ -79,4 +79,4 @@ class TestGoalListView:
         """
         response: Response = client.post(self.url)
 
-        assert response.status_code == status.HTTP_403_FORBIDDEN, "Отказ в доступе не предоставлен"
+        assert response.status_code == status.HTTP_403_FORBIDDEN, "Access denied"

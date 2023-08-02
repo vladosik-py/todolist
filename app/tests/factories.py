@@ -48,7 +48,7 @@ class BoardParticipantFactory(factory.django.DjangoModelFactory):
         model = BoardParticipant
 
 
-# category
+# categories
 
 @register
 class CategoryFactory(factory.django.DjangoModelFactory):
