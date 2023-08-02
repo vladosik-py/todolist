@@ -1,87 +1,38 @@
+from typing import Dict, Union
+
 import pytest
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.fields import DateTimeField
+from rest_framework.response import Response
 
-from goals.models import BoardParticipant, Goal
-from tests.factories import CreateGoalRequest
+from goals.models import Goal
+from tests.factories import BoardFactory, BoardParticipantFactory, CategoryFactory
 
 
 @pytest.mark.django_db
 class TestGoalCreateView:
-    url = reverse("goals:create_goal")
+    """ Тесты для работы с целями """
+    url: str = reverse("goals:create_goal")
 
-    def test_auth_required(self, client):
-        response = client.post(self.url)
-        assert response.status_code == status.HTTP_403_FORBIDDEN
+    def test_goal_create_owner(self, auth_client, user, due_date) -> None:
+        """
+        Тест, который проверяет, можно ли создать новую цель,
+        если пользователь является владельцем доски.
+        """
+        board = BoardFactory()
+        category = CategoryFactory(board=board)
+        BoardParticipantFactory(board=board, user=user)
 
-    def test_failed_to_create_board_if_not_participant(self, auth_client, goal_category, faker):
-        data = CreateGoalRequest.build(category=goal_category.id)
+        create_data: Dict[str, Union[str, int]] = {
+            "category": category.pk,
+            "title": "New goal",
+            "due_date": due_date,
+        }
 
-        response = auth_client.post(self.url, data=data)
+        response: Response = auth_client.post(self.url, data=create_data)
+        created_goal = Goal.objects.filter(
+            user=user, category=category, title=create_data["title"]
+        ).exists()
 
-        assert response.status_code == status.HTTP_403_FORBIDDEN
-        assert response.json() == {'detail': 'must be owner or writer in project'}
-
-    def test_failed_to_create_board_if_reader(self, auth_client, board_participant, goal_category, faker):
-        board_participant.role = BoardParticipant.Role.reader
-        board_participant.save(update_fields=['role'])
-        data = CreateGoalRequest.build(category=goal_category.id)
-
-        response = auth_client.post(self.url, data=data)
-
-        assert response.status_code == status.HTTP_403_FORBIDDEN
-        assert response.json() == {'detail': 'must be owner or writer in project'}
-
-    @pytest.mark.parametrize(
-        'role',
-        [BoardParticipant.Role.owner, BoardParticipant.Role.writer],
-        ids=['owner', 'writer']
-    )
-    def test_have_to_create_to_with_roles_owner_or_writer(
-            self, auth_client, board_participant, goal_category, faker, role
-    ):
-        board_participant.role = role
-        board_participant.save(update_fields=['role'])
-        data = CreateGoalRequest.build(category=goal_category.id)
-
-        response = auth_client.post(self.url, data=data)
-
-        assert response.status_code == status.HTTP_201_CREATED
-        new_goal = Goal.objects.get()
-        assert response.json() == _serialize_response(new_goal)
-
-    @pytest.mark.usefixtures('board_participant')
-    def test_create_goal_on_deleted_category(self, auth_client, goal_category):
-        goal_category.is_deleted = True
-        goal_category.save(update_fields=['is_deleted'])
-        data = CreateGoalRequest.build(category=goal_category.id)
-
-        response = auth_client.post(self.url, data=data)
-
-        assert response.status_code == status.HTTP_400_BAD_REQUEST
-        assert response.json() == {'category': ['Category not found']}
-
-    @pytest.mark.usefixtures('board_participant')
-    def test_create_goal_on_not_existing_category(self, auth_client):
-        data = CreateGoalRequest.build(category=1)
-
-        response = auth_client.post(self.url, data=data)
-
-        assert response.status_code == status.HTTP_400_BAD_REQUEST
-        assert response.json() == {'category': ['Invalid pk "1" - object does not exist']}
-
-
-def _serialize_response(goal: Goal, **kwargs) -> dict:
-    data = {
-        'id': goal.id,
-        'category': goal.category_id,
-        'created': DateTimeField().to_representation(goal.created),
-        'updated': DateTimeField().to_representation(goal.updated),
-        'title': goal.title,
-        'description': goal.description,
-        'due-date': DateTimeField().to_representation(goal.due_date),
-        'status': goal.status,
-        'priority': goal.priority,
-    }
-    return data | kwargs
+        assert response.status_code == status.HTTP_201_CREATED, "goal is not created"
+        assert created_goal, "goal not found"

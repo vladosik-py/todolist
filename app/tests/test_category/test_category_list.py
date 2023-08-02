@@ -74,7 +74,7 @@ class TestCategoryListView:
 
     def test_category_create_deny(self, client) -> None:
         """
-        Тест, который проверяет, что пользователи, не прошедшие проверку подлинности,
+        Тест, который проверяет, что незарегистрированные пользователи
         не могут получить доступ к конечной точке API создания категории.
         """
         response: Response = client.post(self.url)
