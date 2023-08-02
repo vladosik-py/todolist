@@ -31,5 +31,5 @@ class TestCategoryCreateView:
             title=create_data["title"], board=board, user=user
         ).exists()
 
-        assert response.status_code == status.HTTP_201_CREATED, "Категория не создалась"
-        assert created_category, "Созданной категории не существует"
+        assert response.status_code == status.HTTP_201_CREATED, "category is not created"
+        assert created_category, "category not found"

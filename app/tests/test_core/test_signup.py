@@ -8,6 +8,7 @@ from tests.factories import SignUpRequest
 
 @pytest.mark.django_db
 class TestSignUpView:
+    """ Тест на регистрацию пользователя """
     url = reverse('core:signup')
 
     def test_user_created(self, client):
