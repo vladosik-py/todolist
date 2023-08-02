@@ -1,7 +1,7 @@
 import factory
 from pytest_factoryboy import register
 from core.models import User
-from goals.models import Board, BoardParticipant
+from goals.models import Board, BoardParticipant, GoalCategory
 
 from django.contrib.auth import get_user_model
 
@@ -63,3 +63,15 @@ class BoardParticipantFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = BoardParticipant
+
+
+# category
+
+@register
+class CategoryFactory(factory.django.DjangoModelFactory):
+    title = 'New Category'
+    board = factory.SubFactory(BoardFactory)
+    user = factory.SubFactory(UserFactory)
+
+    class Meta:
+        model = GoalCategory
