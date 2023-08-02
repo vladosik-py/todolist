@@ -1,6 +1,7 @@
 import factory
 from pytest_factoryboy import register
 from core.models import User
+from goals.models import Board, BoardParticipant
 
 from django.contrib.auth import get_user_model
 
@@ -43,3 +44,22 @@ class CreateGoalRequest(factory.DictFactory):
 @register
 class CreateGoalCommentRequest(factory.DictFactory):
     text = factory.Faker('sentence')
+
+
+# boards
+
+@register
+class BoardFactory(factory.django.DjangoModelFactory):
+    title = 'New Board'
+
+    class Meta:
+        model = Board
+
+
+@register
+class BoardParticipantFactory(factory.django.DjangoModelFactory):
+    board = factory.SubFactory(BoardFactory)
+    user = factory.SubFactory(UserFactory)
+
+    class Meta:
+        model = BoardParticipant
